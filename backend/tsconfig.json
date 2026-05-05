@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "rootDirs": ["src","prisma"],
+    "outDir": "dist",
+    "lib": ["es2023", "dom"],
+    "target": "es2023",
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "esModuleInterop": true,
+    "types": ["node"],
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": ["src/**/*"]
+}
