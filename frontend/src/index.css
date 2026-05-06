@@ -1,0 +1,24 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  /* Adicionaremos mais variáveis do Shadcn aqui depois */
+}
+
+@layer base {
+  :root {
+    --background: oklch(1 0 0);
+    --foreground: oklch(0.145 0 0);
+    --primary: oklch(0.4568 0.2146 277.02);
+    --primary-foreground: oklch(0.985 0 0);
+    --radius: 0.5rem;
+  }
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+}
