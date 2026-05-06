@@ -1,3 +1,4 @@
+import cors from 'cors'
 import 'dotenv/config'
 import 'reflect-metadata'
 import express from "express"
@@ -6,9 +7,8 @@ import { buildSchema, Resolver } from "type-graphql"
 import { expressMiddleware } from "@as-integrations/express5"
 import { buildContext } from './graphql/context/index'
 import { AuthResolver } from './resolvers/auth.resolver'
-// import { CategoryResolver } from './resolvers/category.resolver'
-// import { TransactionResolver } from './resolvers/transaction.resolver'
-import cors from 'cors'
+import { CategoryResolver } from './resolvers/category.resolver'
+import { TransactionResolver } from './resolvers/transaction.resolver'
 
 async function bootstrap() {
     const app = express()
@@ -20,7 +20,7 @@ async function bootstrap() {
 
     const schema = await buildSchema({
         resolvers: [
-            AuthResolver
+            AuthResolver, CategoryResolver, TransactionResolver
         ],
         validate: false,
         emitSchemaFile: './schema.graphql'
