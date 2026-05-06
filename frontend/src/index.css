@@ -1,24 +1,144 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "@fontsource-variable/inter";
 
-@theme {
+@custom-variant dark (&:is(.dark *));
+
+@plugin "tailwindcss-animate";
+
+@theme inline {
+  --font-sans: "Inter Variable", "Inter", sans-serif;
+  --font-heading: var(--font-sans);
+
+  /* Nossas Cores Customizadas (Figma) */
+  --color-brand-dark: #124B2B;
+  --color-brand-base: #1F6F43;
+
+  --color-blue-dark: #1D4ED8;
+  --color-blue-base: #2563EB;
+  --color-blue-light: #DBEAFE;
+
+  --color-purple-dark: #7E22CE;
+  --color-purple-base: #9333EA;
+  --color-purple-light: #F3E8FF;
+
+  --color-pink-dark: #BE185D;
+  --color-pink-base: #DB2777;
+  --color-pink-light: #FCE7F3;
+
+  --color-red-dark: #B91C1C;
+  --color-red-base: #DC2626;
+  --color-red-light: #FEE2E2;
+
+  --color-orange-dark: #C2410C;
+  --color-orange-base: #EA580C;
+  --color-orange-light: #FFEDD5;
+
+  --color-yellow-dark: #A16207;
+  --color-yellow-base: #CA8A04;
+  --color-yellow-light: #F7F3CA;
+
+  --color-green-dark: #15803D;
+  --color-green-base: #16A34A;
+  --color-green-light: #E0FAE9;
+
+  /* Mapeamento de Cores Dinâmicas do Shadcn */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
-  /* Adicionaremos mais variáveis do Shadcn aqui depois */
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* Bordas do Shadcn baseadas no Figma */
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
 }
 
 @layer base {
   :root {
-    --background: oklch(1 0 0);
-    --foreground: oklch(0.145 0 0);
-    --primary: oklch(0.4568 0.2146 277.02);
-    --primary-foreground: oklch(0.985 0 0);
+    /* Aplicando as cores do Figma no sistema do Shadcn (Modo Claro) */
+    --background: #F8F9FA; /* gray-100 */
+    --foreground: #111827; /* gray-800 */
+    
+    --card: #ffffff;
+    --card-foreground: #111827;
+    
+    --popover: #ffffff;
+    --popover-foreground: #111827;
+    
+    --primary: #1F6F43; /* brand-base */
+    --primary-foreground: #ffffff;
+    
+    --secondary: #E5E7EB; /* gray-200 */
+    --secondary-foreground: #111827;
+    
+    --muted: #E5E7EB; /* gray-200 */
+    --muted-foreground: #6B7280; /* gray-500 */
+    
+    --accent: #E5E7EB; /* gray-200 */
+    --accent-foreground: #111827;
+    
+    --destructive: #EF4444; /* danger */
+    --destructive-foreground: #ffffff;
+    
+    --border: #D1D5DB; /* gray-300 */
+    --input: #D1D5DB; /* gray-300 */
+    --ring: #1F6F43; /* brand-base */
+    
     --radius: 0.5rem;
   }
-}
 
-body {
-  background-color: var(--background);
-  color: var(--foreground);
+  .dark {
+    /* Modo escuro básico para não quebrar componentes caso alguém mude a preferência do sistema */
+    --background: #111827;
+    --foreground: #F8F9FA;
+    --card: #1f2937;
+    --card-foreground: #F8F9FA;
+    --popover: #1f2937;
+    --popover-foreground: #F8F9FA;
+    --primary: #1F6F43;
+    --primary-foreground: #ffffff;
+    --secondary: #374151;
+    --secondary-foreground: #F8F9FA;
+    --muted: #374151;
+    --muted-foreground: #9CA3AF;
+    --accent: #374151;
+    --accent-foreground: #F8F9FA;
+    --destructive: #EF4444;
+    --destructive-foreground: #ffffff;
+    --border: #374151;
+    --input: #374151;
+    --ring: #1F6F43;
+  }
+
+  * {
+    @apply border-border outline-ring/50;
+  }
+  
+  html {
+    @apply font-sans;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
 }
