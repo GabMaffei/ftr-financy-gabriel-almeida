@@ -4,6 +4,8 @@ import { Login } from './pages/Auth/Login'
 import { Register } from './pages/Auth/Register'
 import { Layout } from './components/Layout'
 import { Dashboard } from './pages/Dashboard'
+import { Categories } from './pages/Categories'
+import { Transactions } from './pages/Transactions'
 
 // Componente para rotas que exigem login (ex: Dashboard)
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
@@ -36,6 +38,18 @@ function App() {
       <Route path="/" element={
         <ProtectedRoute>
           <Layout><Dashboard /></Layout>
+        </ProtectedRoute>
+      } />
+
+      <Route path="/categorias" element={
+        <ProtectedRoute>
+          <Layout><Categories /></Layout>
+        </ProtectedRoute>
+      } />
+
+      <Route path="/transacoes" element={
+        <ProtectedRoute>
+          <Layout><Transactions /></Layout>
         </ProtectedRoute>
       } />
     </Routes>
