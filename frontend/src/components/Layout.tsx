@@ -17,11 +17,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
-      {/* Header Fiel ao Figma */}
       <header className="h-16 bg-card border-b flex items-center justify-between px-8">
         <div className="flex items-center gap-12">
           <img src={logo} alt="Financy" className="h-6" />
-          
+
           <nav className="flex items-center gap-4">
             {menuItems.map((item) => {
               const isActive = location.pathname === item.path;
@@ -43,7 +42,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
         </div>
 
         <div className="flex items-center gap-4">
-          <div className="flex items-center gap-3 text-right">
+          <Link
+            to="/perfil"
+            className="flex items-center gap-3 text-right hover:opacity-80 transition-opacity rounded-md p-1"
+          >
             <div className="flex flex-col">
               <span className="text-sm font-medium text-foreground">{user?.name}</span>
               <span className="text-xs text-muted-foreground">{user?.email}</span>
@@ -53,14 +55,14 @@ export function Layout({ children }: { children: React.ReactNode }) {
                 {user?.name?.substring(0, 2).toUpperCase()}
               </AvatarFallback>
             </Avatar>
-          </div>
+          </Link>
+
           <Button variant="ghost" size="icon" onClick={logout} title="Sair">
             <LogOut className="h-5 w-5 text-muted-foreground" />
           </Button>
         </div>
       </header>
 
-      {/* Conteúdo da Página */}
       <main className="flex-1 p-8 max-w-7xl mx-auto w-full">
         {children}
       </main>

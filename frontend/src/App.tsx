@@ -6,6 +6,7 @@ import { Layout } from './components/Layout'
 import { Dashboard } from './pages/Dashboard'
 import { Categories } from './pages/Categories'
 import { Transactions } from './pages/Transactions'
+import { Profile } from './pages/Profile'
 
 // Componente para rotas que exigem login (ex: Dashboard)
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
@@ -50,6 +51,12 @@ function App() {
       <Route path="/transacoes" element={
         <ProtectedRoute>
           <Layout><Transactions /></Layout>
+        </ProtectedRoute>
+      } />
+
+      <Route path="/perfil" element={
+        <ProtectedRoute>
+          <Layout><Profile /></Layout>
         </ProtectedRoute>
       } />
     </Routes>
