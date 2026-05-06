@@ -7,11 +7,6 @@ import { AuthOutput } from "@/dtos/output/auth.output";
 export class AuthResolver {
   private authService = new AuthService();
 
-  @Query(() => String)
-  hello() {
-    return "API do Financy rodando com sucesso!";
-  }
-
   @Mutation(() => AuthOutput)
   async register(
     @Arg("data", () => RegisterInput) data: RegisterInput

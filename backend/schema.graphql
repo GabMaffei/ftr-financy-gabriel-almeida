@@ -51,7 +51,6 @@ type Mutation {
 }
 
 type Query {
-  hello: String!
   listCategories: [CategoryModel!]!
   listTransactions: [TransactionModel!]!
 }

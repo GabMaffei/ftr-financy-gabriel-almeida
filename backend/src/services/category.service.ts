@@ -32,4 +32,14 @@ export class CategoryService {
     await prismaClient.category.delete({ where: { id } });
     return true;
   }
+
+  async findById(id: string, userId: string) {
+    const category = await prismaClient.category.findFirst({ 
+      where: { id, userId } 
+    });
+    
+    if (!category) throw new Error("Categoria não encontrada.");
+    
+    return category;
+  }
 }

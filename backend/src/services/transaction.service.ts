@@ -3,6 +3,17 @@ import { CreateTransactionInput, UpdateTransactionInput } from "@/dtos/input/tra
 
 export class TransactionService {
   async create(data: CreateTransactionInput, userId: string) {
+    const category = await prismaClient.category.findFirst({
+      where: { 
+        id: data.categoryId, 
+        userId: userId 
+      }
+    });
+
+    if (!category) {
+      throw new Error("A categoria informada não existe ou não pertence a você.");
+    }
+    
     return prismaClient.transaction.create({
       data: { ...data, userId }
     });
@@ -20,6 +31,19 @@ export class TransactionService {
     const transaction = await prismaClient.transaction.findFirst({ where: { id, userId } });
     if (!transaction) throw new Error("Transação não encontrada.");
 
+    if (data.categoryId) {
+      const category = await prismaClient.category.findFirst({
+        where: { 
+          id: data.categoryId, 
+          userId: userId 
+        }
+      });
+
+      if (!category) {
+        throw new Error("A nova categoria informada não existe ou não pertence a você.");
+      }
+    }
+
     return prismaClient.transaction.update({
       where: { id },
       data
@@ -32,5 +56,15 @@ export class TransactionService {
 
     await prismaClient.transaction.delete({ where: { id } });
     return true;
+  }
+
+  async listByCategory(categoryId: string, userId: string) {
+    return prismaClient.transaction.findMany({
+      where: { 
+        categoryId, 
+        userId // Mantemos a segurança do isolamento!
+      },
+      orderBy: { date: 'desc' }
+    });
   }
 }
