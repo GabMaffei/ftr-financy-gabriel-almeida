@@ -59,6 +59,7 @@
   --color-accent-foreground: var(--accent-foreground);
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
+  --color-success: var(--success);
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
@@ -99,6 +100,8 @@
     
     --destructive: #EF4444; /* danger */
     --destructive-foreground: #ffffff;
+
+    --success: #1F6F43; /* brand-base */
     
     --border: #D1D5DB; /* gray-300 */
     --input: #D1D5DB; /* gray-300 */
@@ -125,6 +128,7 @@
     --accent-foreground: #F8F9FA;
     --destructive: #EF4444;
     --destructive-foreground: #ffffff;
+    --success: #15803D; /* brand-base */
     --border: #374151;
     --input: #374151;
     --ring: #1F6F43;

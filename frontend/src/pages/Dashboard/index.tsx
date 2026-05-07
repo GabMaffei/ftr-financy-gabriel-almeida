@@ -3,6 +3,7 @@ import { GET_DASHBOARD_DATA } from "@/lib/graphql/queries/dashboard";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Wallet, ArrowUpCircle, ArrowDownCircle, Plus, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 // Tipagens baseadas na nossa Query
 interface Transaction {
@@ -75,34 +76,30 @@ export function Dashboard() {
       {/* Cards de Resumo */}
       <div className="grid gap-4 md:grid-cols-3">
         <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <CardHeader className="flex flex-row items-center justify-start gap-2 space-y-0 pb-2">
+            <Wallet className="h-4 w-4 text-purple-base" />
             <CardTitle className="text-sm font-medium text-muted-foreground uppercase">Saldo Total</CardTitle>
-            <Wallet className="h-4 w-4 text-primary" />
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold">{formatCurrency(balance)}</div>
           </CardContent>
         </Card>
         <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground uppercase">Receitas do Mês</CardTitle>
+          <CardHeader className="flex flex-row items-center justify-start gap-2 space-y-0 pb-2">
             <ArrowUpCircle className="h-4 w-4 text-success" />
+            <CardTitle className="text-sm font-medium text-muted-foreground uppercase">Receitas do Mês</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold text-success">
-              + {formatCurrency(totalIncome)}
-            </div>
+            <div className="text-3xl font-bold text-success">+ {formatCurrency(totalIncome)}</div>
           </CardContent>
         </Card>
         <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground uppercase">Despesas do Mês</CardTitle>
+          <CardHeader className="flex flex-row items-center justify-start gap-2 space-y-0 pb-2">
             <ArrowDownCircle className="h-4 w-4 text-destructive" />
+            <CardTitle className="text-sm font-medium text-muted-foreground uppercase">Despesas do Mês</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold text-destructive">
-              - {formatCurrency(totalExpense)}
-            </div>
+            <div className="text-3xl font-bold text-destructive">- {formatCurrency(totalExpense)}</div>
           </CardContent>
         </Card>
       </div>
@@ -112,7 +109,9 @@ export function Dashboard() {
         <Card className="md:col-span-2">
           <CardHeader className="flex flex-row items-center justify-between">
             <CardTitle className="text-muted-foreground text-sm font-medium uppercase">Transações Recentes</CardTitle>
-            <Button variant="link" className="text-primary p-0">Ver todas &gt;</Button>
+            <Button variant="link" className="text-primary p-0" asChild>
+              <Link to="/transacoes">Ver todas &gt;</Link>
+            </Button>
           </CardHeader>
           <CardContent>
             {recentTransactions.length === 0 ? (
@@ -141,8 +140,10 @@ export function Dashboard() {
                 ))}
               </div>
             )}
-            <Button className="w-full gap-2 mt-6" variant="outline">
-              <Plus className="h-4 w-4 text-primary" /> <span className="text-primary font-medium">Nova transação</span>
+            <Button className="w-full gap-2 mt-6" variant="outline" asChild>
+              <Link to="/transacoes">
+                <Plus className="h-4 w-4 text-primary" /> <span className="text-primary font-medium">Nova transação</span>
+              </Link>
             </Button>
           </CardContent>
         </Card>
@@ -151,7 +152,10 @@ export function Dashboard() {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between">
             <CardTitle className="text-muted-foreground text-sm font-medium uppercase">Categorias</CardTitle>
-            <Button variant="link" className="text-primary p-0">Gerenciar &gt;</Button>
+            {/* 👈 Botão "Gerenciar" agora redireciona para Categorias */}
+            <Button variant="link" className="text-primary p-0" asChild>
+              <Link to="/categorias">Gerenciar &gt;</Link>
+            </Button>
           </CardHeader>
           <CardContent>
             {categories.length === 0 ? (
