@@ -1,6 +1,5 @@
 import {
   ApolloClient,
-  ApolloLink,
   HttpLink,
   InMemoryCache,
 } from "@apollo/client";
@@ -16,13 +15,24 @@ const authLink = new SetContextLink((prevContext) => {
 
   return {
     headers: {
-      ...prevContext.headers,
+      ...prevContext.headers, 
       authorization: token ? `Bearer ${token}` : "",
     },
   };
 });
 
 export const apolloClient = new ApolloClient({
-  link: ApolloLink.from([authLink, httpLink]),
+  link: authLink.concat(httpLink),
   cache: new InMemoryCache(),
+  
+  defaultOptions: {
+    watchQuery: {
+      fetchPolicy: 'cache-and-network', 
+      errorPolicy: 'ignore',
+    },
+    query: {
+      fetchPolicy: 'network-only', 
+      errorPolicy: 'all',
+    },
+  }
 });

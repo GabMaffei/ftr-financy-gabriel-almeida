@@ -172,9 +172,8 @@ Estas são melhorias de UI/UX e incrementos fullstack que farei/fiz para elevar 
 - [X] Perfil: Criar a mutation `updateUser` para salvar a alteração do nome.
 
 ### Fase 4 — A Cereja do Bolo (Performance e extras)
-- [ ] Lazy Loading: Implementar `React.lazy()` nas rotas principais do `App.tsx` (sugerido pelo professor).
-- [ ] Cache: Otimizar o Apollo Client.
-- [ ] (Branch extra) Upload de imagem de perfil.
+- [X] Lazy Loading: Implementar `React.lazy()` nas rotas principais do `App.tsx` (sugerido pelo professor).
+- [X] Cache: Otimizar o Apollo Client.
 
 ---
 
