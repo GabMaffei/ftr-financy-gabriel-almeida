@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useMutation } from "@apollo/client/react";
 import { CREATE_TRANSACTION, UPDATE_TRANSACTION } from "@/lib/graphql/mutations/transaction";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -29,6 +29,7 @@ type TransactionForm = z.infer<typeof transactionSchema>;
 interface TransactionModalProps {
   isOpen: boolean;
   onClose: () => void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   transactionToEdit?: any | null;
   categories: { id: string; name: string }[];
   onSuccess: () => void;
@@ -89,26 +90,35 @@ export function TransactionModal({ isOpen, onClose, transactionToEdit, categorie
       <DialogContent>
         <DialogHeader>
           <DialogTitle>{isEditing ? "Editar transação" : "Nova transação"}</DialogTitle>
+          <DialogDescription className="sr-only">
+            Preencha os campos abaixo para salvar sua transação.
+          </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 mt-4">
           
-          <div className="flex gap-4 w-full">
-            <Button 
-              type="button" 
-              variant={selectedType === "EXPENSE" ? "destructive" : "outline"} 
-              className="flex-1 gap-2"
+          <div className="flex p-1 bg-secondary rounded-lg w-full">
+            <button
+              type="button"
+              className={`flex-1 flex items-center justify-center gap-2 py-2 text-sm font-medium rounded-md transition-all ${
+                selectedType === "EXPENSE"
+                  ? "bg-background text-destructive shadow-sm border border-destructive/20"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
               onClick={() => setValue("type", "EXPENSE")}
             >
               <ArrowDownCircle className="h-4 w-4" /> Despesa
-            </Button>
-            <Button 
-              type="button" 
-              variant={selectedType === "INCOME" ? "default" : "outline"}
-              className="flex-1 gap-2"
+            </button>
+            <button
+              type="button"
+              className={`flex-1 flex items-center justify-center gap-2 py-2 text-sm font-medium rounded-md transition-all ${
+                selectedType === "INCOME"
+                  ? "bg-background text-success shadow-sm border border-success/20"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
               onClick={() => setValue("type", "INCOME")}
             >
               <ArrowUpCircle className="h-4 w-4" /> Receita
-            </Button>
+            </button>
           </div>
 
           <div className="space-y-2">

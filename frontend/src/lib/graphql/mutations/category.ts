@@ -5,6 +5,9 @@ export const CREATE_CATEGORY = gql`
     createCategory(data: $data) {
       id
       name
+      description
+      icon
+      color
     }
   }
 `;
@@ -20,6 +23,9 @@ export const UPDATE_CATEGORY = gql`
     updateCategory(id: $id, data: $data) {
       id
       name
+      description
+      icon
+      color
     }
   }
 `;

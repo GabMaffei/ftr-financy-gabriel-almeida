@@ -9,12 +9,14 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import { User } from "lucide-react";
+import { User, Eye, EyeOff } from "lucide-react";
 import logo from "@/assets/financy_logo.svg";
+import { useState } from "react";
+import { toast } from "sonner"
 
 // Validação com Zod
 const loginSchema = z.object({
-    email: z.string().email("E-mail inválido"),
+    email: z.email("E-mail inválido"),
     password: z.string().min(1, "A senha é obrigatória"),
 });
 
@@ -34,6 +36,7 @@ interface LoginMutationResponse {
 export function Login() {
     const navigate = useNavigate();
     const loginAction = useAuthStore((state) => state.login);
+    const [showPassword, setShowPassword] = useState(false);
 
     const { register, handleSubmit, formState: { errors } } = useForm<LoginForm>({
         resolver: zodResolver(loginSchema),
@@ -45,7 +48,9 @@ export function Login() {
             navigate("/"); // Manda pro Dashboard
         },
         onError: (error) => {
-            alert(error.message); // Aqui podemos colocar um Toast do Shadcn depois
+            toast.error("Erro ao fazer login", {
+                description: error.message,
+            }); // Aqui podemos colocar um Toast do Shadcn depois
         }
     });
 
@@ -79,13 +84,22 @@ export function Login() {
 
                     <div className="space-y-2">
                         <Label htmlFor="password">Senha</Label>
-                        <Input
-                            id="password"
-                            type="password"
-                            placeholder="Digite sua senha"
-                            {...register("password")}
-                            className={errors.password ? "border-destructive" : ""}
-                        />
+                        <div className="relative">
+                            <Input
+                                id="password"
+                                type={showPassword ? "text" : "password"}
+                                placeholder="Digite sua senha"
+                                {...register("password")}
+                                className={`pr-10 ${errors.password ? "border-destructive" : ""}`}
+                            />
+                            <button
+                                type="button"
+                                onClick={() => setShowPassword(!showPassword)}
+                                className="absolute right-3 top-2.5 text-muted-foreground hover:text-foreground"
+                            >
+                                {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                            </button>
+                        </div>
                         {errors.password && <span className="text-xs text-destructive">{errors.password.message}</span>}
                     </div>
 
@@ -96,7 +110,16 @@ export function Login() {
                                 Lembrar-me
                             </Label>
                         </div>
-                        <a href="#" className="text-sm text-primary font-medium hover:underline">
+                        <a
+                            href="#"
+                            onClick={(e) => {
+                                e.preventDefault();
+                                toast.info("Em desenvolvimento 🚧", {
+                                    description: "A recuperação de senha estará disponível em breve!"
+                                });
+                            }}
+                            className="text-sm text-primary font-medium hover:underline"
+                        >
                             Recuperar senha
                         </a>
                     </div>

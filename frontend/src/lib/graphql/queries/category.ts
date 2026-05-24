@@ -5,6 +5,9 @@ export const GET_CATEGORIES = gql`
     listCategories {
       id
       name
+      description
+      icon
+      color
       transactions {
         id
       }

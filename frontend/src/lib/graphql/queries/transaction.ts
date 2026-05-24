@@ -11,6 +11,8 @@ export const GET_TRANSACTIONS = gql`
       category {
         id
         name
+        icon
+        color
       }
     }
   }

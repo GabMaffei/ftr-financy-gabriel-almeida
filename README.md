@@ -152,5 +152,31 @@ pnpm dev
 
 ---
 
+## 🎯 Crédito Extra (Correções/Polimento do Professor)
+
+Estas são melhorias de UI/UX e incrementos fullstack que farei/fiz para elevar a nota do projeto.
+
+### Fase 1 — Polimento Visual (UI/UX básica)
+- [X] Dashboard Cards: Ícones alinhados à esquerda e cor roxa na carteira.
+- [X] Dashboard Botões: Fazer os links "Gerenciar" e "Nova transação" funcionarem de verdade.
+- [X] Auth: Adicionar o “olhinho” (mostrar/esconder senha) e trocar o `alert()` por um Toast do shadcn/ui (inclusive o "WIP" do Esqueci a senha).
+- [ ] Gaps: Remover os espaços estranhos nas tabelas e cards.
+
+### Fase 2 — Slider e Filtros (UX avançada)
+- [X] Modal de Transação: Refatorar os botões de "Despesa/Receita" para virarem um Slider/Toggle vazado, mais moderno.
+- [X] Filtros e Paginação: Adicionar selects de "Tipo", "Categoria" e "Período", além da paginação na tela de Transações.
+
+### Fase 3 — Expandindo o Banco de Dados (Fullstack)
+- [X] Prisma/GraphQL: Adicionar `description`, `icon` e `color` na model `Category`.
+- [X] Modal de Categoria: Montar a UI para escolher a cor e o ícone.
+- [X] Perfil: Criar a mutation `updateUser` para salvar a alteração do nome.
+
+### Fase 4 — A Cereja do Bolo (Performance e extras)
+- [ ] Lazy Loading: Implementar `React.lazy()` nas rotas principais do `App.tsx` (sugerido pelo professor).
+- [ ] Cache: Otimizar o Apollo Client.
+- [ ] (Branch extra) Upload de imagem de perfil.
+
+---
+
 ## 📝 Considerações
 Este repositório contém a implementação do **Financy** seguindo os requisitos obrigatórios do desafio.

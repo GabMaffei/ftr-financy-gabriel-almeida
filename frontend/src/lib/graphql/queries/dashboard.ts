@@ -9,12 +9,17 @@ export const GET_DASHBOARD_DATA = gql`
       type
       date
       category {
+        id
         name
+        icon
+        color
       }
     }
     listCategories {
       id
       name
+      icon
+      color
       transactions {
         amount
         type

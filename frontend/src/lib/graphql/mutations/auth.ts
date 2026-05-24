@@ -25,3 +25,13 @@ export const REGISTER_MUTATION = gql`
     }
   }
 `;
+
+export const UPDATE_PROFILE_MUTATION = gql`
+  mutation UpdateProfile($name: String!) {
+    updateProfile(name: $name) {
+      id
+      name
+      email
+    }
+  }
+`;

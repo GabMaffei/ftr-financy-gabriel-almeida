@@ -2,12 +2,15 @@ import { useAuthStore } from "@/stores/auth";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { useMutation } from "@apollo/client/react";
+import { UPDATE_PROFILE_MUTATION } from "@/lib/graphql/mutations/auth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { LogOut, User as UserIcon } from "lucide-react";
+import { LogOut, User as UserIcon, Loader2 } from "lucide-react";
+import { toast } from "sonner";
 
 const profileSchema = z.object({
   name: z.string().min(2, "O nome deve ter no mínimo 2 caracteres"),
@@ -16,17 +19,32 @@ const profileSchema = z.object({
 type ProfileForm = z.infer<typeof profileSchema>;
 
 export function Profile() {
-  const { user, logout } = useAuthStore();
+  // Puxamos o token e o login para atualizar o estado global após salvar
+  const { user, token, logout, login } = useAuthStore();
   
   const { register, handleSubmit, formState: { errors } } = useForm<ProfileForm>({
     resolver: zodResolver(profileSchema),
     defaultValues: { name: user?.name || "" }
   });
 
-  const onSubmit = (data: ProfileForm) => {
-    console.log("Atualizar perfil:", data);
-    // Aqui chamaria a mutation de update user
-    alert("Funcionalidade de salvar alterações em desenvolvimento!");
+  const [updateProfile, { loading }] = useMutation(UPDATE_PROFILE_MUTATION, {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    onCompleted: (data: any) => {
+      // Atualiza o Zustand com o novo nome para o Header reagir na hora!
+      if (token) {
+        login(data.updateProfile, token);
+      }
+      toast.success("Perfil atualizado com sucesso!");
+    },
+    onError: (error) => {
+      toast.error("Erro ao atualizar perfil", {
+        description: error.message,
+      });
+    }
+  });
+
+  const onSubmit = (formData: ProfileForm) => {
+    updateProfile({ variables: { name: formData.name } });
   };
 
   return (
@@ -61,7 +79,16 @@ export function Profile() {
               <p className="text-[10px] text-muted-foreground italic">O e-mail não pode ser alterado</p>
             </div>
 
-            <Button type="submit" className="w-full">Salvar alterações</Button>
+            <Button type="submit" className="w-full" disabled={loading}>
+              {loading ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Salvando...
+                </>
+              ) : (
+                "Salvar alterações"
+              )}
+            </Button>
             
             <Button variant="outline" type="button" className="w-full gap-2 text-destructive hover:bg-destructive/10" onClick={logout}>
               <LogOut className="h-4 w-4" /> Sair da conta

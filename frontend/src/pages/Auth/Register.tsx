@@ -9,11 +9,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import logo from "@/assets/financy_logo.svg";
-import { LogIn } from "lucide-react";
+import { LogIn, Eye, EyeOff } from "lucide-react";
+import { useState } from "react";
 
 const registerSchema = z.object({
   name: z.string().min(2, "O nome deve ter no mínimo 2 caracteres"),
-  email: z.string().email("E-mail inválido"),
+  email: z.email("E-mail inválido"),
   password: z.string().min(8, "A senha deve ter no mínimo 8 caracteres"),
 });
 
@@ -33,6 +34,7 @@ interface RegisterMutationResponse {
 export function Register() {
   const navigate = useNavigate();
   const loginAction = useAuthStore((state) => state.login);
+  const [showPassword, setShowPassword] = useState(false);
 
   const { register, handleSubmit, formState: { errors } } = useForm<RegisterForm>({
     resolver: zodResolver(registerSchema),
@@ -92,13 +94,22 @@ export function Register() {
 
           <div className="space-y-2">
             <Label htmlFor="password">Senha</Label>
-            <Input
-              id="password"
-              type="password"
-              placeholder="Digite sua senha"
-              {...register("password")}
-              className={errors.password ? "border-destructive" : ""}
-            />
+            <div className="relative">
+              <Input
+                id="password"
+                type={showPassword ? "text" : "password"}
+                placeholder="Digite sua senha"
+                {...register("password")}
+                className={`pr-10 ${errors.password ? "border-destructive" : ""}`}
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-2.5 text-muted-foreground hover:text-foreground"
+              >
+                {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+              </button>
+            </div>
             {errors.password ? (
               <span className="text-xs text-destructive">{errors.password.message}</span>
             ) : (

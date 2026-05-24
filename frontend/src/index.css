@@ -145,4 +145,10 @@
   body {
     @apply bg-background text-foreground;
   }
+
+  /* Ajuste para a descrição do Toast (Sonner) ficar mais legível */
+  [data-sonner-toast] [data-description] {
+    color: var(--color-gray-600) !important;
+    font-weight: 500;
+  }
 }

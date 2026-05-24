@@ -9,7 +9,10 @@ type AuthOutput {
 }
 
 type CategoryModel {
+  color: String
   createdAt: DateTimeISO!
+  description: String
+  icon: String
   id: ID!
   name: String!
   transactions: [TransactionModel!]
@@ -18,6 +21,9 @@ type CategoryModel {
 }
 
 input CreateCategoryInput {
+  color: String
+  description: String
+  icon: String
   name: String!
 }
 
@@ -47,6 +53,7 @@ type Mutation {
   login(data: LoginInput!): AuthOutput!
   register(data: RegisterInput!): AuthOutput!
   updateCategory(data: UpdateCategoryInput!, id: String!): CategoryModel!
+  updateProfile(name: String!): UserModel!
   updateTransaction(data: UpdateTransactionInput!, id: String!): TransactionModel!
 }
 
@@ -80,6 +87,9 @@ enum TransactionType {
 }
 
 input UpdateCategoryInput {
+  color: String
+  description: String
+  icon: String
   name: String
 }
 

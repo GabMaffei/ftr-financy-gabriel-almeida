@@ -7,6 +7,7 @@ import { Dashboard } from './pages/Dashboard'
 import { Categories } from './pages/Categories'
 import { Transactions } from './pages/Transactions'
 import { Profile } from './pages/Profile'
+import { Toaster } from "@/components/ui/sonner"
 
 // Componente para rotas que exigem login (ex: Dashboard)
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
@@ -22,6 +23,7 @@ function PublicRoute({ children }: { children: React.ReactNode }) {
 
 function App() {
   return (
+    <>
     <Routes>
       {/* Rotas Públicas */}
       <Route path="/login" element={
@@ -60,6 +62,8 @@ function App() {
         </ProtectedRoute>
       } />
     </Routes>
+    <Toaster />
+    </>
   )
 }
 
