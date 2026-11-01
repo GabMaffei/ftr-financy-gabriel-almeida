@@ -1,181 +1,76 @@
-# 💰 FINANCY — Aplicação FullStack de Finanças
+# Financy
 
-O **Financy** é uma aplicação FullStack para **gerenciamento de finanças pessoais**, desenvolvida como desafio da pós-graduação Tech Developer 360 da
-<a href="https://ftr.rocketseat.com.br/" target="_blank" style="text-decoration: underline;">Rocketseat (FTR)</a>.
+Financy is a full-stack personal finance application built for a challenge in Rocketseat's Tech Developer 360 postgraduate program. It brings account management, categories, and income and expense transactions into a single dashboard.
 
-A aplicação permite **criar conta, autenticar com JWT** e **gerenciar transações e categorias**, garantindo que cada usuário visualize e manipule apenas os seus próprios dados.
+The repository brings together a GraphQL backend and a React frontend, with user-scoped data access and a local SQLite database. It was developed as an academic challenge.
 
----
+## What it does
 
-## ✨ Funcionalidades
+- Registers users and signs them in with JWT-based authentication.
+- Creates, lists, edits, and deletes categories and transactions through a GraphQL API.
+- Scopes category and transaction operations to the authenticated user. Transaction creation and category changes also verify category ownership.
+- Shows balance, income, expenses, recent transactions, and category summaries on the dashboard.
+- Filters transactions by title, type, category, and month, with client-side pagination.
+- Lets users choose a category icon and color and update their profile name.
+- Loads main routes lazily and uses Apollo Client caching policies for data fetching.
 
-### 🧠 Backend (API GraphQL)
-- [x] Cadastro de usuário
-- [x] Login com **JWT**
-- [x] CRUD completo de **Categorias**
-- [x] CRUD completo de **Transações**
-- [x] Autorização: acesso a categorias/transações **sempre filtrado por `userId`**
-- [x] CORS habilitado
-- [x] Banco de dados **SQLite** com Prisma
-- [x] Arquivo `.env.example` documentando variáveis obrigatórias
+## Stack
 
-### 🖥️ Frontend (React)
-- [x] Cadastro e login
-- [x] Listagem / criação / edição / remoção de Categorias
-- [x] Listagem / criação / edição / remoção de Transações
-- [x] Consumo da API via **GraphQL**
-- [x] `.env.example` com `VITE_BACKEND_URL`
+| Layer | Technology |
+| --- | --- |
+| API | Node.js, TypeScript, Express 5, Apollo Server, TypeGraphQL |
+| Data | Prisma, SQLite |
+| Authentication | bcryptjs, JSON Web Tokens |
+| Web | React 19, Vite, TypeScript, Apollo Client, React Router |
+| UI and state | Tailwind CSS, shadcn/ui components, Zustand, React Hook Form, Zod |
 
----
+## Architecture
 
-## 🛠️ Tecnologias Utilizadas
-
-### Backend
-- **Node.js** + **TypeScript**
-- **GraphQL**
-- **Express**
-- **Apollo Server**
-- **TypeGraphQL**
-- **Prisma ORM**
-- **SQLite**
-- **JWT** (JSON Web Token)
-
-### Frontend
-- **React** + **Vite** + **TypeScript**
-- **GraphQL Client:** Apollo Client
-- **TailwindCSS**
-- **shadcn/ui** 
-- **Zustand**
-
----
-
-## 📂 Estrutura do Repositório
-
-```txt
-/
-├── backend/   # API GraphQL (Node + TS + Prisma + SQLite + JWT)
-└── frontend/  # Aplicação React (Vite + TS + GraphQL)
+```mermaid
+flowchart LR
+    Web[React interface] --> Client[Apollo Client]
+    Client -->|GraphQL + bearer token| API[Express + Apollo Server]
+    API --> Services[User-scoped services]
+    Services --> Prisma[Prisma ORM]
+    Prisma --> DB[(SQLite)]
 ```
 
----
+Authentication identifies the current user; service queries use that identity to scope category and transaction access. The frontend handles transaction filtering and pagination after retrieving the user's data.
 
-## ⚙️ Variáveis de Ambiente
+## Project layout
 
-### Backend (`backend/.env`)
-Crie um arquivo `.env` baseado no `.env.example`.
-
-**Arquivo:** `backend/.env.example`
-```env
-JWT_SECRET=
-DATABASE_URL=
+```text
+backend/   GraphQL API, Prisma schema, and migrations
+frontend/  React application
 ```
 
----
+## Run locally
 
-### Frontend (`frontend/.env`)
-Crie um arquivo `.env` baseado no `.env.example`.
+You will need Node.js and pnpm. Install dependencies separately in `backend/` and `frontend/`.
 
-**Arquivo:** `frontend/.env.example`
-```env
-VITE_BACKEND_URL=
-```
+1. In `backend/`, copy `.env.example` to `.env`. Set `DATABASE_URL` to a local SQLite URL (the example uses `file:./dev.db`) and replace `JWT_SECRET` with your own secret.
+2. From `backend/`, run:
 
----
+   ```bash
+   pnpm install
+   pnpm exec prisma migrate dev
+   pnpm exec prisma generate
+   pnpm dev
+   ```
 
-## ▶️ Como Rodar o Projeto Localmente
+3. In `frontend/`, copy `.env.example` to `.env`. Set `VITE_API_URL=http://localhost:4000/graphql`, then run:
 
-> Pré-requisitos:
-> - Node.js (LTS recomendado)
-> - pnpm instalado
+   ```bash
+   pnpm install
+   pnpm dev
+   ```
 
----
+Open the URL shown by Vite, normally `http://localhost:5173`. The API listens at `http://localhost:4000/graphql`. The development server currently allows requests from `http://localhost:5173` through its CORS configuration, so use that origin when running locally.
 
-### 1) Backend (API)
+## Challenge context and implementation
 
-Entre na pasta do backend:
-```bash
-cd backend
-pnpm install
-```
+The challenge called for a personal finance application with a React and GraphQL frontend, a TypeScript and GraphQL backend, Prisma with SQLite, JWT authentication, and user-owned categories and transactions. My implementation follows that brief. The implementation also includes: richer category metadata (description, icon, color), a profile-name mutation, transaction filters and pagination, route-level lazy loading, and interface improvements such as category styling and feedback toasts.
 
-Crie seu `.env` a partir do exemplo:
-```bash
-# copie o backend/.env.example e preencha as variáveis
-```
+## Development checks
 
-Rode as migrations do Prisma (SQLite):
-```bash
-pnpm prisma migrate dev
-```
-
-Gere o Prisma Client:
-```bash
-pnpm prisma generate
-```
-
-Inicie o servidor em desenvolvimento:
-```bash
-pnpm dev
-```
-
-A API GraphQL ficará disponível em:
-- `http://localhost:4000/graphql` (ou a porta definida no seu `.env`)
-
----
-
-### 2) Frontend (React)
-
-Em outro terminal, entre na pasta do frontend:
-```bash
-cd frontend
-pnpm install
-```
-
-Crie seu `.env` a partir do exemplo e aponte para o backend:
-```env
-VITE_BACKEND_URL=http://localhost:4000/graphql
-```
-
-Inicie o frontend:
-```bash
-pnpm dev
-```
-
----
-
-## ✅ Regras Importantes do Desafio (resumo)
-- O usuário só pode ver e gerenciar **categorias e transações criadas por ele**.
-- Stack obrigatória no backend: **TypeScript + GraphQL + Prisma + SQLite + JWT**.
-- Stack obrigatória no frontend: **React + Vite + TypeScript + GraphQL**.
-- `.env.example` é obrigatório no backend e no frontend.
-- Implementações extras devem ficar em **branch separada**, preservando o MVP.
-
----
-
-## 🎯 Crédito Extra (Correções/Polimento do Professor)
-
-Estas são melhorias de UI/UX e incrementos fullstack que farei/fiz para elevar a nota do projeto.
-
-### Fase 1 — Polimento Visual (UI/UX básica)
-- [X] Dashboard Cards: Ícones alinhados à esquerda e cor roxa na carteira.
-- [X] Dashboard Botões: Fazer os links "Gerenciar" e "Nova transação" funcionarem de verdade.
-- [X] Auth: Adicionar o “olhinho” (mostrar/esconder senha) e trocar o `alert()` por um Toast do shadcn/ui (inclusive o "WIP" do Esqueci a senha).
-- [ ] Gaps: Remover os espaços estranhos nas tabelas e cards.
-
-### Fase 2 — Slider e Filtros (UX avançada)
-- [X] Modal de Transação: Refatorar os botões de "Despesa/Receita" para virarem um Slider/Toggle vazado, mais moderno.
-- [X] Filtros e Paginação: Adicionar selects de "Tipo", "Categoria" e "Período", além da paginação na tela de Transações.
-
-### Fase 3 — Expandindo o Banco de Dados (Fullstack)
-- [X] Prisma/GraphQL: Adicionar `description`, `icon` e `color` na model `Category`.
-- [X] Modal de Categoria: Montar a UI para escolher a cor e o ícone.
-- [X] Perfil: Criar a mutation `updateUser` para salvar a alteração do nome.
-
-### Fase 4 — A Cereja do Bolo (Performance e extras)
-- [X] Lazy Loading: Implementar `React.lazy()` nas rotas principais do `App.tsx` (sugerido pelo professor).
-- [X] Cache: Otimizar o Apollo Client.
-
----
-
-## 📝 Considerações
-Este repositório contém a implementação do **Financy** seguindo os requisitos obrigatórios do desafio.
+The frontend defines `pnpm build` (TypeScript and Vite) and `pnpm lint` (ESLint). The backend has no automated test script. The project currently has no automated test suite documented in its package scripts.
