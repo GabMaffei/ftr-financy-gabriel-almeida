@@ -74,3 +74,37 @@ The challenge called for a personal finance application with a React and GraphQL
 ## Development checks
 
 The frontend defines `pnpm build` (TypeScript and Vite) and `pnpm lint` (ESLint). The backend has no automated test script. The project currently has no automated test suite documented in its package scripts.
+
+## Source guide
+
+| Source | What to inspect |
+| --- | --- |
+| [GraphQL server](backend/src/index.ts) | Server startup, endpoint, and local CORS configuration. |
+| [Category service](backend/src/services/category.service.ts) | User-scoped category queries and mutations. |
+| [Transaction service](backend/src/services/transaction.service.ts) | Transaction ownership and category ownership checks. |
+| [Apollo client](frontend/src/lib/graphql/apollo.ts) | API URL, bearer-token header, and cache policies. |
+| [Dashboard](frontend/src/pages/Dashboard/index.tsx) | Income, expense, and balance summaries. |
+
+## GraphQL usage
+
+After starting the API, send GraphQL requests to `http://localhost:4000/graphql`. Create a local account through the web interface, then sign in with the `login` mutation:
+
+```graphql
+mutation SignIn($data: LoginInput!) {
+  login(data: $data) {
+    token
+    user { id name }
+  }
+}
+```
+
+Supply your own local account's email and password in the `data` variable. For protected operations, send the returned token in the `Authorization: Bearer <token>` HTTP header. For example:
+
+```graphql
+query MyFinanceData {
+  listCategories { id name }
+  listTransactions { id title amount type }
+}
+```
+
+The query is scoped to the authenticated user. Transaction filters and pagination shown in the web app are applied by the frontend, rather than GraphQL query arguments.
