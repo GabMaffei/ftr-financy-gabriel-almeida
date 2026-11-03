@@ -4,6 +4,10 @@ Financy is a full-stack personal finance application built for a challenge in Ro
 
 The repository brings together a GraphQL backend and a React frontend, with user-scoped data access and a local SQLite database. It was developed as an academic challenge.
 
+## Preview
+
+![Financy application preview](./preview.gif)
+
 ## What it does
 
 - Registers users and signs them in with JWT-based authentication.
